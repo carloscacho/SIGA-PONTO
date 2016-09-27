@@ -6,6 +6,7 @@ dependencies {
     compile supportLibraryDependency
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
 }
 
 android {
