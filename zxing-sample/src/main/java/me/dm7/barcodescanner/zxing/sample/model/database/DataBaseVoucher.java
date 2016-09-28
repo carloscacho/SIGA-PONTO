@@ -1,4 +1,4 @@
-package me.dm7.barcodescanner.zxing.sample.model;
+package me.dm7.barcodescanner.zxing.sample.model.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

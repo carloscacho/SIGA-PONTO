@@ -1,6 +1,8 @@
 package me.dm7.barcodescanner.zxing.sample.model;
 
-import java.util.ArrayList;
+import android.support.v4.util.ArrayMap;
+
+import java.util.Date;
 
 /**
  * Created by CarlosEmilio on 26/09/2016.
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 public class ClientCompany {
     private String companyName;
     private int companyCT;
-    private ArrayList<Voucher> listOfVoucher;
+    private ArrayMap<Integer, ReservationMonth> listOfReservation;
     private int totalExtraVoucher;
 
     /**
@@ -22,15 +24,33 @@ public class ClientCompany {
         this.companyName = companyName;
         this.companyCT = CT;
 
-        listOfVoucher = new ArrayList<>();
+        listOfReservation = new ArrayMap<>();
         totalExtraVoucher = 0;
     }
 
-    private boolean loadVoucher(long numberVoucher) {
+    /**
+     *
+     * @return
+     */
+    private void createKey(){
+        int month = getIndex();
+        listOfReservation.put(month, new ReservationMonth(month));
+    }
 
-        Voucher voucher = new Voucher(numberVoucher, false);
-        if (listOfVoucher.size() - totalExtraVoucher < companyCT)
-            listOfVoucher.add(voucher);
+    /**
+     *
+     * @param numberVoucher
+     * @param course
+     * @return
+     */
+    private boolean addVoucher(long numberVoucher, Course course) {
+
+        int monthAndYear = getIndex();
+        Voucher voucher = new Voucher(numberVoucher, false, course);
+
+        if (listOfReservation.get(monthAndYear).getReservedCourses().size() -
+                listOfReservation.get(monthAndYear).getTotalExtraVoucher() < companyCT)
+            listOfReservation.get(monthAndYear).getReservedCourses().add(voucher);
         else
             return false;
         return true;
@@ -41,7 +61,7 @@ public class ClientCompany {
      * clear List of vouchers loaded in the mouth
      */
     private void clearListVoucher() {
-        listOfVoucher.clear();
+        listOfReservation.clear();
         totalExtraVoucher--;
     }
 
@@ -54,11 +74,15 @@ public class ClientCompany {
     private boolean checkinVoucher(long numberVoucher) {
         //the same voucher change true value
         Voucher tempVoucher = new Voucher(numberVoucher, true);
-        for (int i = 0; i < listOfVoucher.size(); i++) {
-            if (listOfVoucher.get(i).getNumVoucher() == numberVoucher) {
+
+        int index = getIndex();
+
+        for (int i = 0; i < listOfReservation.size(); i++) {
+            if (listOfReservation.get(index).getReservedCourses().get(i).getNumVoucher() == numberVoucher) {
                 // case localize voucher
-                listOfVoucher.remove(i);
-                listOfVoucher.add(tempVoucher);
+                tempVoucher.setLinkedCourse(listOfReservation.get(index).getReservedCourses().get(i).getLinkedCourse());
+                listOfReservation.get(index).getReservedCourses().remove(i);
+                listOfReservation.get(index).getReservedCourses().add(tempVoucher);
                 return true;
 
             }
@@ -73,14 +97,23 @@ public class ClientCompany {
      *
      * @param numberVoucher of the extra voucher
      */
-    private void includExtraVoucher(long numberVoucher) {
-        Voucher voucherTemp = new Voucher(numberVoucher, false);
+    private void includExtraVoucher(long numberVoucher, Course course) {
+        Voucher voucherTemp = new Voucher(numberVoucher, false, course);
         voucherTemp.setExtra(true);
-        listOfVoucher.add(voucherTemp);
+
+        int index = getIndex();
+
+        listOfReservation.get(index).getReservedCourses().add(voucherTemp);
         totalExtraVoucher++;
 
     }
 
+    public int getIndex (){
+        Date today = new Date();
+        int monthAndYear = (today.getMonth() * 1000) + (today.getYear());
+
+        return monthAndYear;
+    }
 
     //Gets And Sets
     public String getCompanyName() {
@@ -99,19 +132,18 @@ public class ClientCompany {
         this.companyCT = companyCT;
     }
 
-    public ArrayList<Voucher> getListOfVoucher() {
-        return listOfVoucher;
+    public ArrayMap<Integer, ReservationMonth> getListOfReservation() {
+        return listOfReservation;
     }
 
-    public void setListOfVoucher(ArrayList<Voucher> listOfVoucher) {
-        this.listOfVoucher = listOfVoucher;
+    public void setListOfReservation(ArrayMap<Integer, ReservationMonth> listOfReservation) {
+        this.listOfReservation = listOfReservation;
     }
 
-    public int getTotalExtraVoucher() {
-        return totalExtraVoucher;
-    }
 
     public void setTotalExtraVoucher(int totalExtraVoucher) {
         this.totalExtraVoucher = totalExtraVoucher;
     }
+
+
 }

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>    
     <color name="actionbar_opacity">#33000000</color>
-    <color name="primary">#fa2729</color>
-    <color name="primary_dark">#660107</color>
+    <color name="primary">#ec1c24</color>
+    <color name="primary_dark">#ec1c24</color>
     <color name="primary_light">#C5CAE9</color>
-    <color name="accent">#ff5252</color>
+    <color name="accent">#0675dc</color>
     <color name="primary_text">#2d2d2d</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
-    <color name="background_item">#f77b7b</color>
+    <color name="background_item">#ffffff</color>
+    <color name="background_app">#e6e6e4</color>
+    <color name="line_superior">#eb1c24</color>
 </resources>

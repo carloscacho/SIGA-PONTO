@@ -9,7 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import me.dm7.barcodescanner.zxing.sample.model.DataBaseVoucher;
+import me.dm7.barcodescanner.zxing.sample.model.database.DataBaseVoucher;
 import me.dm7.barcodescanner.zxing.sample.model.ListItemCT;
 
 /**
