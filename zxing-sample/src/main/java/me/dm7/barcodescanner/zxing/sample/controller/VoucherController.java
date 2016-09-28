@@ -6,9 +6,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
 
 import me.dm7.barcodescanner.zxing.sample.model.DataBaseVoucher;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemCT;
 
 /**
  * Created by CarlosEmilio on 31/08/2016.
@@ -70,10 +72,9 @@ public class VoucherController {
      * @return a array with number of voucher checked
      *
      */
-    public ArrayAdapter<String> getArrayVoucher(Context context){
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_list_item_1);
-
+    public ArrayList<ListItemCT> getArrayVoucher(Context context){
+        ArrayList<ListItemCT> stringArrayAdapter = new ArrayList<>();
+        ListItemCT item;
         //get All voucher Checked
         Cursor cs = connDataBase.query("VOUCHERIN",null,null,null,null,null,null);
 
@@ -82,8 +83,8 @@ public class VoucherController {
 
             do {
                 String number = cs.getString(1);
-
-                stringArrayAdapter.add(number);
+                item = new ListItemCT("Empresa X", "10", number, "0" );
+                stringArrayAdapter.add(item);
 
             }while(cs.moveToNext());
         }

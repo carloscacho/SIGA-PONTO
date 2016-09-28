@@ -16,9 +16,9 @@ public class ClientCompany {
      * Constructor of company CT
      *
      * @param companyName constructor name
-     * @param CT number max of voucher por mouth
+     * @param CT          number max of voucher por mouth
      */
-    private ClientCompany(String companyName, int CT){
+    private ClientCompany(String companyName, int CT) {
         this.companyName = companyName;
         this.companyCT = CT;
 
@@ -26,10 +26,10 @@ public class ClientCompany {
         totalExtraVoucher = 0;
     }
 
-    private boolean loadVoucher(long numberVoucher){
+    private boolean loadVoucher(long numberVoucher) {
 
-        Voucher voucher = new Voucher(numberVoucher,false);
-        if(listOfVoucher.size() - totalExtraVoucher < companyCT)
+        Voucher voucher = new Voucher(numberVoucher, false);
+        if (listOfVoucher.size() - totalExtraVoucher < companyCT)
             listOfVoucher.add(voucher);
         else
             return false;
@@ -40,21 +40,22 @@ public class ClientCompany {
     /**
      * clear List of vouchers loaded in the mouth
      */
-    private void clearListVoucher(){
+    private void clearListVoucher() {
         listOfVoucher.clear();
-        totalExtraVoucher --;
+        totalExtraVoucher--;
     }
 
     /**
      * Check-in in list Voucher
+     *
      * @param numberVoucher are the check-in
      * @return true in case voucher localize, false case else
      */
-    private boolean checkinVoucher(long numberVoucher){
+    private boolean checkinVoucher(long numberVoucher) {
         //the same voucher change true value
         Voucher tempVoucher = new Voucher(numberVoucher, true);
-        for (int i = 0; i <  listOfVoucher.size(); i++) {
-            if(listOfVoucher.get(i).getNumVoucher() == numberVoucher){
+        for (int i = 0; i < listOfVoucher.size(); i++) {
+            if (listOfVoucher.get(i).getNumVoucher() == numberVoucher) {
                 // case localize voucher
                 listOfVoucher.remove(i);
                 listOfVoucher.add(tempVoucher);
@@ -68,10 +69,11 @@ public class ClientCompany {
     }
 
     /**
-     *  Includ extra voucher for the business
+     * Includ extra voucher for the business
+     *
      * @param numberVoucher of the extra voucher
      */
-    private void includExtraVoucher(long numberVoucher){
+    private void includExtraVoucher(long numberVoucher) {
         Voucher voucherTemp = new Voucher(numberVoucher, false);
         voucherTemp.setExtra(true);
         listOfVoucher.add(voucherTemp);

@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:nandroid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="5dp"
+    android:layout_row="@integer/viewfinder_border_length"
+    android:background="@color/background_item"
 
-    <TextView
+    >
+
+    <ImageView
+        android:id="@+id/count_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_item"/>
+        android:layout_height="match_parent"
+        android:src="@mipmap/code" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:paddingBottom ="10dip"
+            android:textColor="#040404"
+            android:textSize="25dip"
+            android:textStyle="bold"
+            android:text="Test"
+            android:typeface="sans"/>
+
+        <!-- Weather Information-->
+        <TextView
+            android:id="@+id/company_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCity"
+            android:layout_alignLeft="@+id/tvCity"
+            android:paddingTop="5dip"
+            android:layout_marginLeft="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Test1   test2    test9"
+            android:textColor="#343434"
+            android:textSize="15dip" />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>
