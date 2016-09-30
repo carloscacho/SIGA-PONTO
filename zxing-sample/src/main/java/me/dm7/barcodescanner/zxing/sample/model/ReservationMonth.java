@@ -7,22 +7,22 @@ import java.util.ArrayList;
  */
 
 public class ReservationMonth {
-    private int month;
+    private int monthAndYear;
     private ArrayList<Voucher> reservedCourses;
     private int totalExtraVoucher;
 
 
-    public ReservationMonth(int month) {
-        this.month = month;
+    public ReservationMonth(int monthAndYear) {
+        this.monthAndYear = monthAndYear;
         reservedCourses = new ArrayList<>();
     }
 
-    public int getMonth() {
-        return month;
+    public int getMonthAndYear() {
+        return monthAndYear;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public void setMonthAndYear(int monthAndYear) {
+        this.monthAndYear = monthAndYear;
     }
 
     public ArrayList<Voucher> getReservedCourses() {
@@ -39,7 +39,9 @@ public class ReservationMonth {
 
     public void setTotalExtraVoucher(int totalExtraVoucher) {
         this.totalExtraVoucher = totalExtraVoucher;
+        totalExtraVoucher++;
     }
+
 
 
 }

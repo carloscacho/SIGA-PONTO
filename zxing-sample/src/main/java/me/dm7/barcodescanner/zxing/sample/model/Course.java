@@ -1,22 +1,20 @@
 package me.dm7.barcodescanner.zxing.sample.model;
 
-import java.util.Date;
-
 /**
  * Created by CarlosEmilio on 28/09/2016.
  */
 
 public class Course {
+    private int idCourse;
     private String nameCourse;
-    private Date dateCourse;
+    private String dateCourse;
 
     public Course(String nameCourse) {
         this.nameCourse = nameCourse;
-        dateCourse = new Date();
 
     }
 
-    public Course(String nameCourse, Date dateCourse) {
+    public Course(String nameCourse, String dateCourse) {
         this.nameCourse = nameCourse;
         this.dateCourse = dateCourse;
     }
@@ -30,11 +28,19 @@ public class Course {
         this.nameCourse = nameCourse;
     }
 
-    public Date getDateCourse() {
+    public String getDateCourse() {
         return dateCourse;
     }
 
-    public void setDateCourse(Date dateCourse) {
+    public void setDateCourse(String dateCourse) {
         this.dateCourse = dateCourse;
+    }
+
+    public int getIdCourse() {
+        return idCourse;
+    }
+
+    public void setIdCourse(int idCourse) {
+        this.idCourse = idCourse;
     }
 }

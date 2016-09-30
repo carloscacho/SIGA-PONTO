@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import me.dm7.barcodescanner.zxing.sample.controller.VoucherController;
+import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
 import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
-import me.dm7.barcodescanner.zxing.sample.model.ListItemCT;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ZXING_CAMERA_PERMISSION = 1;
@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     //List de Voucher
     private RecyclerView lstVoucherIn;
-    private ArrayList<ListItemCT> arrayVoucherIn;
-    private VoucherController voucher;
+    private ArrayList<ListItemClientCompany> arrayVoucherIn;
+    private DataBaseController voucher;
 
     @Override
     public void onCreate(Bundle state) {
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         arrayVoucherIn = new ArrayList<>();
 
         //create baseData
-        voucher = VoucherController.getInstance(this);
+        voucher = DataBaseController.getInstance(this);
 
         //Define layout of Recycle View
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

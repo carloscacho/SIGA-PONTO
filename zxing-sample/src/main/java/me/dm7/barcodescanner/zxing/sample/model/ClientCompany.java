@@ -9,10 +9,11 @@ import java.util.Date;
  */
 
 public class ClientCompany {
+    private int idCompany;
     private String companyName;
     private int companyCT;
     private ArrayMap<Integer, ReservationMonth> listOfReservation;
-    private int totalExtraVoucher;
+
 
     /**
      * Constructor of company CT
@@ -20,25 +21,31 @@ public class ClientCompany {
      * @param companyName constructor name
      * @param CT          number max of voucher por mouth
      */
-    private ClientCompany(String companyName, int CT) {
+    public ClientCompany(String companyName, int CT) {
         this.companyName = companyName;
         this.companyCT = CT;
 
         listOfReservation = new ArrayMap<>();
-        totalExtraVoucher = 0;
+
     }
 
     /**
-     *
      * @return
      */
-    private void createKey(){
+    private void createKey() {
         int month = getIndex();
         listOfReservation.put(month, new ReservationMonth(month));
     }
 
     /**
-     *
+     * @return
+     */
+    private void createKey(Date date) {
+        int month = getIndex(date);
+        listOfReservation.put(month, new ReservationMonth(month));
+    }
+
+    /**
      * @param numberVoucher
      * @param course
      * @return
@@ -57,13 +64,6 @@ public class ClientCompany {
 
     }
 
-    /**
-     * clear List of vouchers loaded in the mouth
-     */
-    private void clearListVoucher() {
-        listOfReservation.clear();
-        totalExtraVoucher--;
-    }
 
     /**
      * Check-in in list Voucher
@@ -104,13 +104,21 @@ public class ClientCompany {
         int index = getIndex();
 
         listOfReservation.get(index).getReservedCourses().add(voucherTemp);
-        totalExtraVoucher++;
+//        totalExtraVoucher++;
 
     }
 
-    public int getIndex (){
+    public int getIndex() {
         Date today = new Date();
         int monthAndYear = (today.getMonth() * 1000) + (today.getYear());
+
+        return monthAndYear;
+    }
+
+
+    public int getIndex( Date date) {
+
+        int monthAndYear = (date.getMonth() * 1000) + (date.getYear());
 
         return monthAndYear;
     }
@@ -140,10 +148,17 @@ public class ClientCompany {
         this.listOfReservation = listOfReservation;
     }
 
-
-    public void setTotalExtraVoucher(int totalExtraVoucher) {
-        this.totalExtraVoucher = totalExtraVoucher;
+    public int getIdCompany() {
+        return idCompany;
     }
+
+    public void setIdCompany(int idCompany) {
+        this.idCompany = idCompany;
+    }
+
+//    public void setTotalExtraVoucher(int totalExtraVoucher) {
+//        this.totalExtraVoucher = totalExtraVoucher;
+//    }
 
 
 }

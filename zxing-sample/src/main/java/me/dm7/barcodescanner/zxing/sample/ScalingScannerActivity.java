@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import me.dm7.barcodescanner.zxing.sample.controller.VoucherController;
+import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
 
 public class ScalingScannerActivity extends BaseScannerActivity implements MessageDialogFragment.MessageDialogListener,
         ZXingScannerView.ResultHandler, FormatSelectorDialogFragment.FormatSelectorDialogListener,
@@ -38,7 +38,7 @@ public class ScalingScannerActivity extends BaseScannerActivity implements Messa
 
     private ZXingScannerView mScannerView;
     private boolean mFlash;
-    private VoucherController voucherIn;
+    private DataBaseController voucherIn;
 
 
     private ProgressDialog progressDialog;
@@ -66,7 +66,7 @@ public class ScalingScannerActivity extends BaseScannerActivity implements Messa
         contentFrame.addView(mScannerView);
 
         //get instance of bd
-        voucherIn = VoucherController.getInstance(this);
+        voucherIn = DataBaseController.getInstance(this);
     }
 
     @Override

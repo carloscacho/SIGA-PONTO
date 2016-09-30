@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.sample.R;
-import me.dm7.barcodescanner.zxing.sample.model.ListItemCT;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
 
 /**
  * Created by CarlosEmilio on 27/09/2016.
  */
 public class AdapterVoucher extends RecyclerView.Adapter {
-    private List<ListItemCT> listVoucher;
+    private List<ListItemClientCompany> listVoucher;
     private Context context;
 
 
-    public AdapterVoucher(ArrayList<ListItemCT> arrayVoucherIn, Context context) {
+    public AdapterVoucher(ArrayList<ListItemClientCompany> arrayVoucherIn, Context context) {
         listVoucher = arrayVoucherIn;
         this.context = context;
     }
@@ -40,9 +40,9 @@ public class AdapterVoucher extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolderVoucher holder = (ViewHolderVoucher) viewHolder;
 
-        ListItemCT item  = listVoucher.get(position) ;
+        ListItemClientCompany item  = listVoucher.get(position) ;
 
-        holder.companyName.setText(item.getNameCT());
+        holder.companyName.setText(item.getNameClientCompany());
         holder.companyInfo.setText("CT: " + item.getNumberCT() +"   Voucher: " + item.getVouchers() + "  Check-in: " + item.getCheckIn());
     }
 

@@ -4,27 +4,27 @@ package me.dm7.barcodescanner.zxing.sample.model;
  * Created by CarlosEmilio on 26/09/2016.
  */
 
-public class ListItemCT {
-    private String nameCT;
+public class ListItemClientCompany {
+    private String nameClientCompany;
     private String numberCT;
     private String vouchers;
     private String checkIn;
 
 
-    public ListItemCT(String nameCT, String numberCT, String vouchers, String checkIn) {
-        this.nameCT = nameCT;
+    public ListItemClientCompany(String nameClientCompany, String numberCT, String vouchers, String checkIn) {
+        this.nameClientCompany = nameClientCompany;
         this.numberCT = numberCT;
         this.vouchers = vouchers;
         this.checkIn = checkIn;
 
     }
 
-    public String getNameCT() {
-        return nameCT;
+    public String getNameClientCompany() {
+        return nameClientCompany;
     }
 
-    public void setNameCT(String nameCT) {
-        this.nameCT = nameCT;
+    public void setNameClientCompany(String nameClientCompany) {
+        this.nameClientCompany = nameClientCompany;
     }
 
     public String getNumberCT() {
