@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Scanner-in by C.E </string>
+    <string name="app_name">SIGA Ponto Professor </string>
     <string name="scanner_activity">ZXing Scanner - Full Activity</string>
     <string name="scanner_fragment_activity">ZXing Scanner - Full Fragment Activity</string>
     <string name="simple_scanner_activity">ZXing Scanner - Simple Activity</string>
@@ -24,10 +24,11 @@
     <string name="select_camera">Select a Camera</string>
     <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
-    <string name="lblScan" >Carregar Lista</string>
+    <string name="lblScan">Bater Ponto</string>
     <bool name="cameraPreviewShouldFillView">true</bool>
     <string name="descBtnScanner">Botão de acesso ao Scanner</string>
-    <string name="lblResults" >Gerar Relatório</string>
-    <string name="lblClear">Limpar Lista</string>
-    <string name="lbladdEl">Add Voucher</string>
+    <string name="lblResults">Gerar Relatório</string>
+    <string name="lblClear">Sair do Aplicativo</string>
+    <string name="lbladdEl">Configurações</string>
+    <string name="title_activity_company_view">CompanyView</string>
 </resources>

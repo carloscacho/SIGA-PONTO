@@ -7,14 +7,14 @@ package me.dm7.barcodescanner.zxing.sample.model;
 public class Course {
     private int idCourse;
     private String nameCourse;
-    private String dateCourse;
+    private int dateCourse;
 
     public Course(String nameCourse) {
         this.nameCourse = nameCourse;
 
     }
 
-    public Course(String nameCourse, String dateCourse) {
+    public Course(String nameCourse, int dateCourse) {
         this.nameCourse = nameCourse;
         this.dateCourse = dateCourse;
     }
@@ -28,11 +28,11 @@ public class Course {
         this.nameCourse = nameCourse;
     }
 
-    public String getDateCourse() {
+    public int getDateCourse() {
         return dateCourse;
     }
 
-    public void setDateCourse(String dateCourse) {
+    public void setDateCourse(int dateCourse) {
         this.dateCourse = dateCourse;
     }
 

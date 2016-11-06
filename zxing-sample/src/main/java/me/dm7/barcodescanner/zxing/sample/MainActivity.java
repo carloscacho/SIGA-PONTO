@@ -1,11 +1,9 @@
 package me.dm7.barcodescanner.zxing.sample;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,18 +13,27 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
+import me.dm7.barcodescanner.zxing.sample.controller.ClientController;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoEvent;
+import me.dm7.barcodescanner.zxing.sample.controller.PointLocation;
 import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
 import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private static final int ZXING_CAMERA_PERMISSION = 1;
-    private Class<?> mClss;
+
 
     //List de Voucher
     private RecyclerView lstVoucherIn;
     private ArrayList<ListItemClientCompany> arrayVoucherIn;
-    private DataBaseController voucher;
+    private ClientController clientController;
+
+
+    //location
+    private PointLocation professorLocation;
+    private Class<?> mClss;
+    private GeoLocationBounds locationBounds = new GeoLocationBounds(  37.422 - 0.20, 37.422 + 0.20, 122.084 - 0.20, 122.084 + 0.20);
 
     @Override
     public void onCreate(Bundle state) {
@@ -39,11 +46,21 @@ public class MainActivity extends AppCompatActivity {
         arrayVoucherIn = new ArrayList<>();
 
         //create baseData
-        voucher = DataBaseController.getInstance(this);
+        //voucher = DataBaseController.getInstance(this);
+        clientController = new ClientController(this);
+//        clientController.insertElementsTest();
+
+        //preload
+//        clientController.preloadClients();
+//        clientController.preloadCourse();
+//        clientController.preLoadVoucher();
 
         //Define layout of Recycle View
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         lstVoucherIn.setLayoutManager(layout);
+
+        //location
+        professorLocation = new PointLocation(this);
     }
 
     @Override
@@ -52,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
         //get all elements in the Data Base
        // voucher.insertElementsTest();
-        arrayVoucherIn = voucher.getArrayVoucher(this);
+
+
+        arrayVoucherIn = clientController.getArrayVoucherWithOutPreload();
 
         //load all voucher-in in list
         lstVoucherIn.setAdapter(new AdapterVoucher(arrayVoucherIn, this));
@@ -64,22 +83,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void launchScalingScannerActivity(View v) {
-        launchActivity(ScalingScannerActivity.class);
+    public void getProfessorLocation(View v){
+        GeoEvent event = new GeoEvent() {
+            @Override
+            public void trigger(Location location) {
+
+                String strLocation = String.valueOf(location.getLatitude())
+                 + " " +String.valueOf( location.getLongitude());
+
+                if(locationBounds.contains(location.getLatitude(), location.getLongitude()))
+                {
+                    Toast.makeText(MainActivity.this, "localização encontrada: " + strLocation, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "localização errada: " + strLocation, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        professorLocation.getLocationNow(event);
+//
     }
 
-
-    public void launchActivity(Class<?> clss) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            mClss = clss;
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
-        } else {
-            Intent intent = new Intent(this, clss);
-            startActivity(intent);
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
