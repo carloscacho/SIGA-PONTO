@@ -1,11 +1,8 @@
-    package me.dm7.barcodescanner.zxing.sample.controller;
+    package me.dm7.barcodescanner.zxing.sample.controller.GeoLocation;
 
     import android.content.Context;
 import android.location.Location;
 import android.util.Log;
-
-import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoEvent;
-    import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.MyLocation;
 
     /**
      * Created by CarlosEmilio on 05/11/2016.

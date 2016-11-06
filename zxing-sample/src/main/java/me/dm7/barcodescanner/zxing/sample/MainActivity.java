@@ -14,11 +14,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import me.dm7.barcodescanner.zxing.sample.controller.ClientController;
+import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoEvent;
-import me.dm7.barcodescanner.zxing.sample.controller.PointLocation;
-import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
-import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.PointLocation;
+import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
 public class MainActivity extends AppCompatActivity  {
     private static final int ZXING_CAMERA_PERMISSION = 1;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity  {
 
     //List de Voucher
     private RecyclerView lstVoucherIn;
-    private ArrayList<ListItemClientCompany> arrayVoucherIn;
+    private ArrayList<ListItemPontos> arrayVoucherIn;
     private ClientController clientController;
 
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity  {
     private PointLocation professorLocation;
     private Class<?> mClss;
     private GeoLocationBounds locationBounds = new GeoLocationBounds(  37.422 - 0.20, 37.422 + 0.20, 122.084 - 0.20, 122.084 + 0.20);
+    private DataBaseController DBPontos;
 
     @Override
     public void onCreate(Bundle state) {
@@ -46,9 +48,9 @@ public class MainActivity extends AppCompatActivity  {
         arrayVoucherIn = new ArrayList<>();
 
         //create baseData
-        //voucher = DataBaseController.getInstance(this);
+        DBPontos = DataBaseController.getInstance(this);
         clientController = new ClientController(this);
-//        clientController.insertElementsTest();
+        clientController.insertElementsTest(this);
 
         //preload
 //        clientController.preloadClients();
@@ -68,12 +70,12 @@ public class MainActivity extends AppCompatActivity  {
         super.onResume();
 
         //get all elements in the Data Base
-       // voucher.insertElementsTest();
+        //DBPontos.insertElementsTest();
 
 
         arrayVoucherIn = clientController.getArrayVoucherWithOutPreload();
 
-        //load all voucher-in in list
+        //load all DBPontos-in in list
         lstVoucherIn.setAdapter(new AdapterVoucher(arrayVoucherIn, this));
     }
 

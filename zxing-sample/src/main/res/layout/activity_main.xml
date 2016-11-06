@@ -90,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/ic_event_available_black_24dp"
+                    android:onClick="getProfessorLocation"
                     android:text="@string/lblScan" />
             </LinearLayout>
 
@@ -118,7 +119,6 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="16dp"
                     android:clickable="true"
-                    android:onClick="getProfessorLocation"
                     app:fabSize="normal"
                     app:layout_anchor="@id/lstVoucherCheck"
                     app:layout_anchorGravity="bottom|right|end"

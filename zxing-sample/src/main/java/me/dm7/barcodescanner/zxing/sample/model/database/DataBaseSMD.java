@@ -28,19 +28,22 @@ public class DataBaseSMD extends SQLiteOpenHelper{
 
         db.execSQL("CREATE TABLE IF NOT EXISTS usuario(" +
                 "_id            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "login    VARCHAR(20)," +
+                "usuarioID     INTEGER,"+
                 "nome    VARCHAR(80)," +
+                "login    VARCHAR(20)," +
                 "senha      VARCHAR(50)," +
                 "dadosID      VARCHAR(50)" +
                 ");");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS batidaregistro(" +
                 "_id            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "batidaregistroID INTEGER"+
+                "batidaregistroID INTEGER,"+
                 "escolaID     INTEGER," +
-                "ponto     DATE,"+
+                "pontoDiaMes    VARCHAR(100),"+
+                "pontoDiaSem   VARCHAR(100),"+
+                "pontoHora    VARCHAR(100),"+
                 "aprovado     INTEGER,"+
-                "motivo      VARCHAR(255),"+
+                "motivo      VARCHAR(255)"+
                 ");");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS escola(" +
