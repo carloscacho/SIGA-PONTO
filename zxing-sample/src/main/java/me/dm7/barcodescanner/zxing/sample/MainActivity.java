@@ -1,5 +1,6 @@
 package me.dm7.barcodescanner.zxing.sample;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import me.dm7.barcodescanner.zxing.sample.controller.ClientController;
 import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoEvent;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.PointLocation;
 import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
 import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
@@ -35,9 +37,9 @@ public class MainActivity extends AppCompatActivity  {
     //location
     private PointLocation professorLocation;
     private Class<?> mClss;
-
+    private GeoLocationBounds locationBounds = new GeoLocationBounds(-15.5908429, -56.1116182);
     private DataBaseController DBPontos;
-
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -55,10 +57,6 @@ public class MainActivity extends AppCompatActivity  {
         clientController = new ClientController(this);
         clientController.insertElementsTest(this);
 
-        //preload
-//        clientController.preloadClients();
-//        clientController.preloadCourse();
-//        clientController.preLoadVoucher();
 
         //Define layout of Recycle View
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -72,13 +70,8 @@ public class MainActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        //get all elements in the Data Base
-        //DBPontos.insertElementsTest();
-
-
+        // reeload list
         arrayVoucherIn = clientController.getArrayVoucherWithOutPreload();
-
-        //load all DBPontos-in in list
         lstVoucherIn.setAdapter(new AdapterVoucher(arrayVoucherIn, this));
     }
 
@@ -88,7 +81,14 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
+    /**
+     * Get location of cellphone
+     * send to server
+     * @param v
+     */
     public void getProfessorLocation(View v){
+        progressDialog = ProgressDialog.show(this,"ponto batido", "verificando locarlização",true);
+        progressDialog.setCancelable(false);
         GeoEvent event = new GeoEvent() {
             @Override
             public void trigger(Location location)  {
@@ -96,23 +96,29 @@ public class MainActivity extends AppCompatActivity  {
                 String strLocation = String.valueOf(location.getLatitude())
                  + " " +String.valueOf( location.getLongitude());
 
-                if(clientController.isHourAndLocationOk(location))
+                if(locationBounds.contains(location.getLatitude(),location.getLongitude()))
                 {
+
+                    progressDialog.dismiss();
                     Toast.makeText(MainActivity.this, "localização encontrada: " + strLocation, Toast.LENGTH_SHORT).show();
-//                    PostPosition postPosition = new PostPosition();
+//                    Send information
 //                    try {
+//                        PostPosition postPosition = new PostPosition();
 //                        postPosition.postJason(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
 //                    } catch (IOException e) {
 //                        e.printStackTrace();
 //                    }
                 }else{
+                    progressDialog.dismiss();
                     Toast.makeText(MainActivity.this, "localização errada: " + strLocation, Toast.LENGTH_SHORT).show();
+
                 }
             }
         };
         professorLocation.getLocationNow(event);
 //
     }
+
 
 
     @Override
@@ -132,6 +138,10 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
+    /**
+     * Exit button
+     * @param v
+     */
     public void logout(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 

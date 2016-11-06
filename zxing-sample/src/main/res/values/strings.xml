@@ -28,9 +28,9 @@
     <bool name="cameraPreviewShouldFillView">true</bool>
     <string name="descBtnScanner">Botão de acesso ao Scanner</string>
     <string name="lblResults">Gerar Relatório</string>
-    <string name="lblClear">Sair do Aplicativo</string>
+    <string name="lblClear">Sair do App</string>
     <string name="lbladdEl">Configurações</string>
     <string name="title_activity_company_view">CompanyView</string>
-    <string name="lblLogin">Login (CPF)</string>
+    <string name="lblLogin">Login</string>
     <string name="lblPass">Senha</string>
 </resources>

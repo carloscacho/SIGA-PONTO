@@ -60,10 +60,10 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
 
                         // create batidas
-                        for (int i = 0; i < 5; i++) {
+                        for (int i = 0; i < 8; i++) {
                             ContentValues contValue = new ContentValues();
                             contValue.put("batidaregistroID", i);
-                            contValue.put("escolaID", i);
+                            contValue.put("escolaID", i % 5);
 
                             contValue.put("pontoDiaMes", String.valueOf(i + 10));
                             contValue.put("pontoDiaSem", getWeakDate((i % 7) + 1));
@@ -75,7 +75,7 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
                         }
 
                         // create escola
-                        for (int i = 0; i < 5; i++) {
+                        for (int i = 0; i < 6; i++) {
                             ContentValues contValue = new ContentValues();
                             contValue.put("escolaID", i);
                             contValue.put("descricao", "Escola " + i);

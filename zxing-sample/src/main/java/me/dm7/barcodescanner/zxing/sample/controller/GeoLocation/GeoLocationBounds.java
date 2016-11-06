@@ -18,17 +18,17 @@ public class GeoLocationBounds {
     public final double midY;
 
     public GeoLocationBounds(double mX, double mY) {
-        this.minX = mX - 0.20;
-        this.minY = mY - 0.20;
-        this.maxX = mX + 0.20;
-        this.maxY = mY + 0.20;
+        this.minX = mX - 1.20;
+        this.minY = mY + 1.20;
+        this.maxX = mX - 1.20;
+        this.maxY = mY + 1.20;
 
         midX = (minX + maxX) / 2;
         midY = (minY + maxY) / 2;
     }
 
     public boolean contains(double x, double y) {
-        return minX <= x && x <= maxX && minY <= y && y <= maxY;
+        return (minX <= x && x <= maxX && minY <= y && y <= maxY);
     }
 
     public boolean contains(Point point) {
