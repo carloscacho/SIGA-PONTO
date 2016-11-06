@@ -3,16 +3,15 @@
         import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
 import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
         /**
@@ -23,6 +22,7 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
         public class ClientController {
 
             private DataBaseController dbController;
+
 
 
             //===================================================
@@ -51,17 +51,12 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
                 //create professor
                 try {
 
-                        Cursor batidaregistroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+                    Cursor batidaregistroCursor = dbController.getConnDataBase().query("batidaregistro", null, null, null, null, null, null);
 
                     if(batidaregistroCursor.getCount() == 0) {
 
                         ContentValues contValueUser = new ContentValues();
 
-                        contValueUser.put("nome", "Carlos Emilio de A. Cacho");
-                        contValueUser.put("login", "carlosemilio");
-                        contValueUser.put("senha", "1234");
-                        contValueUser.put("dadosID", "1");
-                        dbController.getConnDataBase().insertOrThrow("usuario", null, contValueUser);
 
 
                         // create batidas
@@ -70,10 +65,9 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
                             contValue.put("batidaregistroID", i);
                             contValue.put("escolaID", i);
 
-
                             contValue.put("pontoDiaMes", String.valueOf(i + 10));
                             contValue.put("pontoDiaSem", getWeakDate((i % 7) + 1));
-                            contValue.put("pontoHora", "20:00");
+                            contValue.put("pontoHora", "09:00");
 
                             contValue.put("aprovado", i % 2);
                             contValue.put("motivo", "motivo " + i);
@@ -85,7 +79,7 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
                             ContentValues contValue = new ContentValues();
                             contValue.put("escolaID", i);
                             contValue.put("descricao", "Escola " + i);
-                            contValue.put("latitude", Double.toString(122.084 + i));
+                            contValue.put("latitude", Double.toString(37.422 + i));
                             contValue.put("longitude", Double.toString(122.084 + i));
                             contValue.put("enderecoID", i);
                             dbController.getConnDataBase().insertOrThrow("escola", null, contValue);
@@ -93,9 +87,12 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
                     }
 
+                    batidaregistroCursor.close();
+
                     }catch(Exception e){
                         Log.e("Insert BD", e.getMessage());
                     }
+
 
 
             }
@@ -147,8 +144,12 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
                         nomeEscola = "0";
                         countCheck = 0;
 
+                        escolaCursor.close();
+
                     } while (batidaregistroCursor.moveToNext());
                 }
+
+                batidaregistroCursor.close();
 
 
                 return stringArrayAdapter;
@@ -157,29 +158,6 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
 
 
-            private int constructorKey() {
-                Date today = new Date();
-                int month = today.getMonth();
-                int year = new GregorianCalendar().get(Calendar.YEAR);
-
-                int date = ((year * 100) + month);
-                Log.i("Date: ", Integer.toString(date));
-
-                return date;
-            }
-
-            public int getWeakDateNumber(String DateNumber) {
-
-                    Date date = getDateFormat(DateNumber);
-
-                    GregorianCalendar cal = new GregorianCalendar();
-
-                    cal.setTime(date);
-
-                    return cal.get(Calendar.DAY_OF_WEEK);
-
-
-            }
 
                 public String getWeakDate(int numberDate){
                     String retorno = "";
@@ -206,32 +184,87 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
                 }
 
-            public  Date getDateFormat(String DateNumber){
-                Locale locale = new Locale("pt", "BR");
-
-                SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd", locale);
-
-                sdfEntrada.setLenient(false);
-
-                Date date;
 
 
-                try {
 
-                    date = sdfEntrada.parse(DateNumber);
 
-                    return date;
+            public void CreateAccess(String strLogin){
 
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return null;
+                Cursor batidaregistroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+
+                if(batidaregistroCursor.getCount() == 0) {
+
+                    ContentValues contValueUser = new ContentValues();
+
+                    contValueUser.put("nome", "Carlos Emilio de A. Cacho");
+                    contValueUser.put("login", "carlosemilio");
+                    contValueUser.put("senha", "1234");
+                    contValueUser.put("dadosID", "1");
+                    dbController.getConnDataBase().insertOrThrow("usuario", null, contValueUser);
                 }
+
+                batidaregistroCursor.close();
 
             }
 
 
+           public boolean verifyAccess(){
+               Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+               int count =  registroCursor.getCount();
+               registroCursor.close();
+
+
+               return  count > 0;
 
 
 
 
+           }
+
+            public void removeAccess(){
+
+//                Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+//                registroCursor.moveToFirst();
+//                String strLogin = registroCursor.getString(3);
+//                registroCursor.close();
+                try {
+                    dbController.getConnDataBase().execSQL("TRUNCATE table " + "usuario");
+                    //tem um erro aqui não sei que está acontecendo
+                }catch (Exception ex){
+                    System.out.println("Erro no truncate " + ex.getMessage());
+                }
+
+
+            }
+
+            public boolean isHourAndLocationOk(Location location) {
+                Calendar calendar = new GregorianCalendar();
+                Date trialTime = new Date();
+                calendar.setTime(trialTime);
+                String now =  calendar.get(Calendar.HOUR_OF_DAY ) + ":00" ;
+
+
+                Cursor registroCursor = dbController.getConnDataBase().query("batidaregistro", null, "pontoHora like " + now, null, null, null, null);
+                if(registroCursor.getCount() > 0){
+                    registroCursor.moveToFirst();
+                    int escolaID = registroCursor.getInt(2);
+
+                    Cursor escolaCursor = dbController.getConnDataBase().query("escola", null, "escolaID = " + escolaID, null, null, null, null);
+
+                    if(escolaCursor.getCount() > 0){
+                        escolaCursor.moveToFirst();
+                        double lat = Double.parseDouble(escolaCursor.getString(3));
+                        double lon = Double.parseDouble(escolaCursor.getString(4));
+
+                        GeoLocationBounds geo = new GeoLocationBounds(lat, lon);
+                        if(geo.contains(location.getLatitude(), location.getLongitude()))
+                            return true;
+                    }
+
+                }
+                else{
+                    return false;
+                }
+                return false;
+            }
         }

@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -109,6 +110,6 @@ public class MyLocation {
     }
 
     public static abstract class LocationResult{
-        public abstract void gotLocation(Location location);
+        public abstract void gotLocation(Location location) ;
     }
 }

@@ -23,7 +23,7 @@ import android.util.Log;
 
             MyLocation.LocationResult locationResult = new MyLocation.LocationResult(){
                 @Override
-                public void gotLocation(Location location){
+                public void gotLocation(Location location)  {
                     event.trigger(location);
                     Log.i("#lat", String.valueOf(location.getLatitude()));
                     Log.i("#log", String.valueOf(location.getLongitude()));

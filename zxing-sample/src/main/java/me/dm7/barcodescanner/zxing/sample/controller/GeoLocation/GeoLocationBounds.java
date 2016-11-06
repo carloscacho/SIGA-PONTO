@@ -17,11 +17,11 @@ public class GeoLocationBounds {
     public final double midX;
     public final double midY;
 
-    public GeoLocationBounds(double minX, double maxX, double minY, double maxY) {
-        this.minX = minX;
-        this.minY = minY;
-        this.maxX = maxX;
-        this.maxY = maxY;
+    public GeoLocationBounds(double mX, double mY) {
+        this.minX = mX - 0.20;
+        this.minY = mY - 0.20;
+        this.maxX = mX + 0.20;
+        this.maxY = mY + 0.20;
 
         midX = (minX + maxX) / 2;
         midY = (minY + maxY) / 2;

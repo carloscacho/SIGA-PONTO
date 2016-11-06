@@ -7,7 +7,7 @@ import android.location.Location;
  */
 
 public abstract class GeoEvent {
-    public void trigger(Location location){
+    public void trigger(Location location)  {
         //todo nothing
     }
 }

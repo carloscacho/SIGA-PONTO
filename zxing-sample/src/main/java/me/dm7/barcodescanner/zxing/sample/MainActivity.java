@@ -1,9 +1,11 @@
 package me.dm7.barcodescanner.zxing.sample;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
 import me.dm7.barcodescanner.zxing.sample.controller.ClientController;
 import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoEvent;
-import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.PointLocation;
 import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
 import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
@@ -34,8 +35,10 @@ public class MainActivity extends AppCompatActivity  {
     //location
     private PointLocation professorLocation;
     private Class<?> mClss;
-    private GeoLocationBounds locationBounds = new GeoLocationBounds(  37.422 - 0.20, 37.422 + 0.20, 122.084 - 0.20, 122.084 + 0.20);
+
     private DataBaseController DBPontos;
+
+
 
     @Override
     public void onCreate(Bundle state) {
@@ -88,14 +91,20 @@ public class MainActivity extends AppCompatActivity  {
     public void getProfessorLocation(View v){
         GeoEvent event = new GeoEvent() {
             @Override
-            public void trigger(Location location) {
+            public void trigger(Location location)  {
 
                 String strLocation = String.valueOf(location.getLatitude())
                  + " " +String.valueOf( location.getLongitude());
 
-                if(locationBounds.contains(location.getLatitude(), location.getLongitude()))
+                if(clientController.isHourAndLocationOk(location))
                 {
                     Toast.makeText(MainActivity.this, "localização encontrada: " + strLocation, Toast.LENGTH_SHORT).show();
+//                    PostPosition postPosition = new PostPosition();
+//                    try {
+//                        postPosition.postJason(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }else{
                     Toast.makeText(MainActivity.this, "localização errada: " + strLocation, Toast.LENGTH_SHORT).show();
                 }
@@ -120,5 +129,30 @@ public class MainActivity extends AppCompatActivity  {
                 }
                 return;
         }
+    }
+
+
+    public void logout(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Sair do Aplicativo");
+
+        builder.setMessage("Tem certeza que deseja sair")
+                .setCancelable(false)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        clientController.removeAccess();
+                        finish();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 }
