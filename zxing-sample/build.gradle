@@ -3,10 +3,14 @@ apply plugin: 'com.android.application'
 dependencies {
     //compile project(":zxing")
     compile 'me.dm7.barcodescanner:zxing:1.9'
-    compile supportLibraryDependency
+//    compile supportLibraryDependency
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
+    //compile of recycle view
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
 }
 
 android {

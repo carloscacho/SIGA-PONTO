@@ -7,25 +7,26 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import me.dm7.barcodescanner.zxing.sample.controller.VoucherController;
+import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
+import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ZXING_CAMERA_PERMISSION = 1;
     private Class<?> mClss;
 
     //List de Voucher
-    private ListView lstVoucherIn;
-    private ArrayAdapter<String> arrayVoucherIn;
-    private ArrayList<String> auxArrayVoucherIn;
-    private VoucherController voucher;
+    private RecyclerView lstVoucherIn;
+    private ArrayList<ListItemClientCompany> arrayVoucherIn;
+    private DataBaseController voucher;
 
     @Override
     public void onCreate(Bundle state) {
@@ -34,26 +35,27 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
 
         //create ListView
-        lstVoucherIn = (ListView) findViewById(R.id.lstVoucherCheck);
-        arrayVoucherIn = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_checked);
+        lstVoucherIn = (RecyclerView) findViewById(R.id.lstVoucherCheck);
+        arrayVoucherIn = new ArrayList<>();
 
         //create baseData
-        voucher = VoucherController.getInstance(this);
-        voucher.insertElementsTest();
-        arrayVoucherIn = voucher.getArrayVoucher(this);
+        voucher = DataBaseController.getInstance(this);
 
-        //load all voucher-in in list
-        lstVoucherIn.setAdapter(arrayVoucherIn);
+        //Define layout of Recycle View
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        lstVoucherIn.setLayoutManager(layout);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        //get all elements in the Data Base
+       // voucher.insertElementsTest();
         arrayVoucherIn = voucher.getArrayVoucher(this);
 
         //load all voucher-in in list
-        lstVoucherIn.setAdapter(arrayVoucherIn);
+        lstVoucherIn.setAdapter(new AdapterVoucher(arrayVoucherIn, this));
     }
 
     public void setupToolbar() {
@@ -66,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
         launchActivity(ScalingScannerActivity.class);
     }
 
-    public void launchFullActivity(View v) {
-        launchActivity(FullScannerActivity.class);
-    }
 
     public void launchActivity(Class<?> clss) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)

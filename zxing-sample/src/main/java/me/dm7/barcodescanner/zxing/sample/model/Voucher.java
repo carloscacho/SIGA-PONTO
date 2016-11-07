@@ -9,6 +9,7 @@ public class Voucher {
     private long numVoucher;
     private boolean checked;
     private boolean extra;
+    private Course linkedCourse;
 
     //constructor
     public Voucher(){
@@ -21,13 +22,19 @@ public class Voucher {
         this.extra = false;
     }
 
+    public Voucher(long numVoucher, boolean checked, Course course) {
+        this.numVoucher = numVoucher;
+        this.checked = checked;
+        this.extra = false;
+        linkedCourse = course;
+    }
+
 
     //methods
     public long getNumVoucher() {
         return numVoucher;
     }
-
-
+    
     public boolean isChecked() {
         return checked;
     }
@@ -42,6 +49,14 @@ public class Voucher {
 
     public void setExtra(boolean extra) {
         this.extra = extra;
+    }
+    
+    public Course getLinkedCourse() {
+        return linkedCourse;
+    }
+
+    public void setLinkedCourse(Course linkedCourse) {
+        this.linkedCourse = linkedCourse;
     }
 
 

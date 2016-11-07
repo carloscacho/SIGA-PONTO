@@ -1,137 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.design.widget.AppBarLayout
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           />
-    </android.support.design.widget.AppBarLayout>
+    android:layout_height="match_parent"
+    android:background="@color/background_app">
 
     <LinearLayout
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="@string/lblResults"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:id="@+id/btnMakeResults"
-
-                android:drawableLeft="@android:drawable/ic_menu_send"
-                android:layout_weight="1"
-                tools:ignore="RtlHardcoded" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnLoadList"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:drawableLeft="@android:drawable/ic_menu_rotate"
-                android:text="@string/lblScan"
-                android:layout_weight="1"
-                tools:ignore="RtlHardcoded" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="@string/lbladdEl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnAddElement"
-                style="@style/Widget.AppCompat.Button.Colored"
-
-
-                android:drawableLeft="@android:drawable/ic_menu_edit"
-                android:layout_weight="1"
-                tools:ignore="RtlHardcoded" />
-
-            <Button
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnClearList"
-                style="@style/Widget.AppCompat.Button.Colored"
-
-
-                android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
-                android:layout_weight="1"
-                android:text="@string/lblClear"
-                tools:ignore="RtlHardcoded" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-            <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/lstVoucherCheck" >
-            </ListView>
+            android:orientation="vertical"
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:clickable="true"
-                app:fabSize="auto"
-                app:srcCompat="@mipmap/code"
-                android:id="@+id/floatingActionButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:background="#00000000"
-                tools:ignore="RtlHardcoded"
-                android:scaleType="fitEnd"
-                android:onClick="launchScalingScannerActivity"
-                app:layout_behavior="me.dm7.barcodescanner.zxing.sample.controller.behavior.ScrollAwareFABBehavior"
-                 />
+            >
 
-            <!--<ImageButton-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/background_item"
+                >
 
-            <!--style="@style/buttonFloat"-->
-            <!--android:src="@mipmap/code"-->
-            <!--android:padding="0dp"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:id="@+id/btnScanner"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:background="#000000ff"-->
-            <!--tools:ignore="RtlHardcoded"-->
-            <!--android:scaleType="fitEnd"-->
-            <!--android:onClick="launchScalingScannerActivity"-->
-            <!--android:contentDescription="@string/lblScan" />-->
-</RelativeLayout>
+                <Button
+                    android:id="@+id/btnMakeResults"
+                    style="@style/Widget.AppCompat.Button.Colored"
 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:drawableLeft="@android:drawable/ic_menu_send"
+                    android:text="@string/lblResults" />
+
+                <Button
+                    android:id="@+id/btnLoadList"
+                    style="@style/Widget.AppCompat.Button.Colored"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@android:drawable/ic_menu_rotate"
+                    android:text="@string/lblScan" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/background_item"
+                >
+
+                <Button
+                    android:id="@+id/btnAddElement"
+                    style="@style/Widget.AppCompat.Button.Colored"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:layout_weight="1"
+                    android:drawableLeft="@android:drawable/ic_menu_edit"
+                    android:text="@string/lbladdEl" />
+
+                <Button
+
+                    android:id="@+id/btnClearList"
+                    style="@style/Widget.AppCompat.Button.Colored"
+
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+                    android:text="@string/lblClear" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/main_content"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/lstVoucherCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fabs"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    app:layout_anchor="@id/lstVoucherCheck"
+                    app:layout_anchorGravity="bottom|right|end"
+                    android:clickable="true"
+                    android:onClick="launchScalingScannerActivity"
+                    app:fabSize="normal"
+                    app:layout_behavior="me.dm7.barcodescanner.zxing.sample.controller.behavior.ScrollAwareFABBehavior"
+                    app:srcCompat="@drawable/ic_center_focus_weak_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <!--<ImageButton-->
+
+                <!--style="@style/buttonFloat"-->
+                <!--android:src="@mipmap/code"-->
+                <!--android:padding="0dp"-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:id="@+id/btnScanner"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:background="#000000ff"-->
+                <!--tools:ignore="RtlHardcoded"-->
+                <!--android:scaleType="fitEnd"-->
+                <!--android:onClick="launchScalingScannerActivity"-->
+                <!--android:contentDescription="@string/lblScan" />-->
+            <!--</RelativeLayout>-->
+
+</android.support.design.widget.CoordinatorLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

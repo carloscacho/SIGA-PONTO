@@ -6,33 +6,35 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
-import me.dm7.barcodescanner.zxing.sample.model.DataBaseVoucher;
+import java.util.ArrayList;
+
+import me.dm7.barcodescanner.zxing.sample.model.database.DataBaseSMD;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
 
 /**
  * Created by CarlosEmilio on 31/08/2016.
  * this is a class singleton of access bd
  */
-public class VoucherController {
+public class DataBaseController {
 
     private SQLiteDatabase connDataBase;
-    private DataBaseVoucher dBVoucher;
+    private DataBaseSMD dataBaseSMD;
 
-    static private VoucherController instance = null;
+    static private DataBaseController instance = null;
 
 
     /**
      * Constructor of DataBase
      * @param context
      */
-    private VoucherController(Context context){
+    private DataBaseController(Context context){
 
 
         //create bd and conex of base data BDSMD
         try {
-            dBVoucher = new DataBaseVoucher(context);
-            connDataBase = dBVoucher.getWritableDatabase();
+            dataBaseSMD = new DataBaseSMD(context);
+            connDataBase = dataBaseSMD.getWritableDatabase();
             Log.i("BD", "Banco de dados Criado com sucesso");
 
             //if ocorrer um erro na criação do banco de dados
@@ -52,9 +54,9 @@ public class VoucherController {
      * @param context send by activity
      * @return the new instance create or instace create early for access data base
      */
-    static public VoucherController getInstance(Context context){
+    static public DataBaseController getInstance(Context context){
         if(instance == null){
-            instance = new VoucherController(context);
+            instance = new DataBaseController(context);
             Log.i("BD", "New access create");
             return instance;
 
@@ -70,10 +72,9 @@ public class VoucherController {
      * @return a array with number of voucher checked
      *
      */
-    public ArrayAdapter<String> getArrayVoucher(Context context){
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_list_item_1);
-
+    public ArrayList<ListItemClientCompany> getArrayVoucher(Context context){
+        ArrayList<ListItemClientCompany> stringArrayAdapter = new ArrayList<>();
+        ListItemClientCompany item;
         //get All voucher Checked
         Cursor cs = connDataBase.query("VOUCHERIN",null,null,null,null,null,null);
 
@@ -82,8 +83,8 @@ public class VoucherController {
 
             do {
                 String number = cs.getString(1);
-
-                stringArrayAdapter.add(number);
+                item = new ListItemClientCompany("Empresa X", "10", number, "0" );
+                stringArrayAdapter.add(item);
 
             }while(cs.moveToNext());
         }
@@ -117,4 +118,14 @@ public class VoucherController {
         }
 
     }
+
+
+    public SQLiteDatabase getConnDataBase() {
+        return connDataBase;
+    }
+
+    public DataBaseSMD getDataBaseSMD() {
+        return dataBaseSMD;
+    }
+
 }
