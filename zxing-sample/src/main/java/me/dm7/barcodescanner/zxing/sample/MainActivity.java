@@ -21,6 +21,8 @@ import me.dm7.barcodescanner.zxing.sample.controller.DataBaseController;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoEvent;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
 import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.PointLocation;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.polygon.Point;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.polygon.Polygon;
 import me.dm7.barcodescanner.zxing.sample.controller.behavior.AdapterVoucher;
 import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
@@ -37,8 +39,15 @@ public class MainActivity extends AppCompatActivity  {
     //location
     private PointLocation professorLocation;
     private Class<?> mClss;
+
+    //localizacão de teste
     private GeoLocationBounds locationBounds = new GeoLocationBounds(-15.5908429, -56.1116182);
+    private Polygon squareScholl;
+
+    //database
     private DataBaseController DBPontos;
+
+    //tela de carregamento da batida de ponto
     private ProgressDialog progressDialog;
 
 
@@ -64,6 +73,18 @@ public class MainActivity extends AppCompatActivity  {
 
         //location
         professorLocation = new PointLocation(this);
+
+
+        //create square for test if the point
+
+        squareScholl = Polygon.Builder()
+                .addVertex(new Point(-15.641165f, -56.099413f))
+                .addVertex(new Point(-15.641310f, -56.100019f))
+                .addVertex(new Point(-15.640752f, -56.100046f))
+                .addVertex(new Point(-15.640602f, -56.099504f))
+                .build();
+
+
     }
 
     @Override
@@ -96,13 +117,14 @@ public class MainActivity extends AppCompatActivity  {
                 String strLocation = String.valueOf(location.getLatitude())
                  + " " +String.valueOf( location.getLongitude());
 
-                if(locationBounds.contains(location.getLatitude(),location.getLongitude()))
+                if(squareScholl.contains(new Point((float)location.getLatitude(),(float)location.getLongitude())))
                 {
+
 
                     progressDialog.dismiss();
                     Toast.makeText(MainActivity.this, "localização encontrada: " + strLocation, Toast.LENGTH_SHORT).show();
 //                    Send information
-//                    try {
+//                  try {
 //                        PostPosition postPosition = new PostPosition();
 //                        postPosition.postJason(Double.toString(location.getLatitude()), Double.toString(location.getLongitude()));
 //                    } catch (IOException e) {

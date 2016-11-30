@@ -48,16 +48,12 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
             public void insertElementsTest(Context context) {
 
 
-                //create professor
+
                 try {
 
                     Cursor batidaregistroCursor = dbController.getConnDataBase().query("batidaregistro", null, null, null, null, null, null);
 
                     if(batidaregistroCursor.getCount() == 0) {
-
-                        ContentValues contValueUser = new ContentValues();
-
-
 
                         // create batidas
                         for (int i = 0; i < 8; i++) {
@@ -200,7 +196,11 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
                     contValueUser.put("login", "carlosemilio");
                     contValueUser.put("senha", "1234");
                     contValueUser.put("dadosID", "1");
-                    dbController.getConnDataBase().insertOrThrow("usuario", null, contValueUser);
+                    try {
+                        dbController.getConnDataBase().insertOrThrow("usuario", null, contValueUser);
+                    }catch (Exception ex){
+                        Log.i("BD", "insert adm in bd");
+                    }
                 }
 
                 batidaregistroCursor.close();
@@ -211,25 +211,24 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
            public boolean verifyAccess(){
                Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
                int count =  registroCursor.getCount();
+              // String strNome = registroCursor.getString(3);
                registroCursor.close();
 
 
                return  count > 0;
 
 
-
-
            }
 
             public void removeAccess(){
 
-//                Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
-//                registroCursor.moveToFirst();
-//                String strLogin = registroCursor.getString(3);
-//                registroCursor.close();
+                Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+                registroCursor.moveToFirst();
+                String strLogin = registroCursor.getString(3);
+                registroCursor.close();
                 try {
-                    dbController.getConnDataBase().execSQL("TRUNCATE table " + "usuario");
-                    //tem um erro aqui não sei que está acontecendo
+                    dbController.getConnDataBase().execSQL(" DELETE  FROM usuario ");
+
                 }catch (Exception ex){
                     System.out.println("Erro no truncate " + ex.getMessage());
                 }
@@ -237,19 +236,20 @@ import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
             }
 
+
             public boolean isHourAndLocationOk(Location location) {
                 Calendar calendar = new GregorianCalendar();
                 Date trialTime = new Date();
                 calendar.setTime(trialTime);
-                String now =  calendar.get(Calendar.HOUR_OF_DAY ) + ":00" ;
+                String now =  calendar.get(Calendar.HOUR_OF_DAY ) + ":00'" ;
 
 
-                Cursor registroCursor = dbController.getConnDataBase().query("batidaregistro", null, "pontoHora like " + now, null, null, null, null);
+                Cursor registroCursor = dbController.getConnDataBase().query("batidaregistro", null, "batidaregistro.pontoHora like '" + now, null, null, null, null);
                 if(registroCursor.getCount() > 0){
                     registroCursor.moveToFirst();
                     int escolaID = registroCursor.getInt(2);
 
-                    Cursor escolaCursor = dbController.getConnDataBase().query("escola", null, "escolaID = " + escolaID, null, null, null, null);
+                    Cursor escolaCursor = dbController.getConnDataBase().query("escola", null, "escola.escolaID = " + escolaID, null, null, null, null);
 
                     if(escolaCursor.getCount() > 0){
                         escolaCursor.moveToFirst();

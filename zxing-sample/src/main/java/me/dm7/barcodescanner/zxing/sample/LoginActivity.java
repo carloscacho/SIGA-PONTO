@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import me.dm7.barcodescanner.zxing.sample.controller.ClientController;
 
-public class SigaPonto extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText edtLogin;
     private EditText edtSenha;
@@ -26,7 +26,7 @@ public class SigaPonto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_siga_ponto);
+        setContentView(R.layout.activity_login);
 
         edtLogin = (EditText) findViewById(R.id.edtLogin);
         edtSenha = (EditText) findViewById(R.id.edtPassApp);
@@ -36,10 +36,18 @@ public class SigaPonto extends AppCompatActivity {
 
         clientController = new ClientController(this);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //verifica já existe acesso
         if(clientController.verifyAccess()){
             isAccesed = true;
+            loginSIGA(new View(this));
         }
-
     }
 
     public void loginSIGA(View v){

@@ -8,14 +8,16 @@ import android.graphics.Point;
 
 public class GeoLocationBounds {
 
-    public final double minX;
-    public final double minY;
+    private final double minX;
+    private final double minY;
 
-    public final double maxX;
-    public final double maxY;
+    private final double maxX;
+    private final double maxY;
 
-    public final double midX;
-    public final double midY;
+    private final double midX;
+    private final double midY;
+
+    
 
     public GeoLocationBounds(double mX, double mY) {
         this.minX = mX - 1.20;
@@ -28,7 +30,7 @@ public class GeoLocationBounds {
     }
 
     public boolean contains(double x, double y) {
-        return (minX <= x && x <= maxX && minY <= y && y <= maxY);
+        return !(minX <= x && x <= maxX && minY <= y && y <= maxY);
     }
 
     public boolean contains(Point point) {

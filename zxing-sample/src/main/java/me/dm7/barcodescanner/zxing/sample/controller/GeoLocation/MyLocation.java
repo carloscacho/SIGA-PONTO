@@ -1,10 +1,13 @@
 package me.dm7.barcodescanner.zxing.sample.controller.GeoLocation;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -19,34 +22,40 @@ public class MyLocation {
     Timer timer1;
     LocationManager lm;
     LocationResult locationResult;
-    boolean gps_enabled=false;
-    boolean network_enabled=false;
+    boolean gps_enabled = false;
+    boolean network_enabled = false;
 
-    public boolean getLocation(Context context, LocationResult result)
-    {
+
+    public boolean getLocation(Context context, LocationResult result) {
         //É usado o callback LocationResult para passar as coordenadas para o codigo do usuario.
-        locationResult=result;
-        if(lm==null)
+        locationResult = result;
+        if (lm == null)
             lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         //se o provedor de localizacao nao estiver habilitado, teremos uma excecao.
-        try{gps_enabled=lm.isProviderEnabled(LocationManager.GPS_PROVIDER);}catch(Exception ex){}
-        try{network_enabled=lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);}catch(Exception ex){}
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
 
         //Codigo para nao tentar fazer a leitura sem provedor de localizacao disponivel
-        if(!gps_enabled && !network_enabled)
+        if (!gps_enabled && !network_enabled)
             return false;
         try {
 
 
-            if(gps_enabled)
+            if (gps_enabled)
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
-            if(network_enabled)
+            if (network_enabled)
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
-            timer1=new Timer();
+            timer1 = new Timer();
             timer1.schedule(new GetLastLocation(), 20000);
 
-        }catch (SecurityException ex){
+        } catch (SecurityException ex) {
             Toast.makeText(context, "Permissão negada", Toast.LENGTH_LONG);
         }
         return true;
@@ -59,9 +68,15 @@ public class MyLocation {
             lm.removeUpdates(this);
             lm.removeUpdates(locationListenerNetwork);
         }
-        public void onProviderDisabled(String provider) {}
-        public void onProviderEnabled(String provider) {}
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        public void onProviderDisabled(String provider) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
     };
 
     LocationListener locationListenerNetwork = new LocationListener() {
@@ -71,14 +86,21 @@ public class MyLocation {
             lm.removeUpdates(this);
             lm.removeUpdates(locationListenerGps);
         }
-        public void onProviderDisabled(String provider) {}
-        public void onProviderEnabled(String provider) {}
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        public void onProviderDisabled(String provider) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
     };
 
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
+
             lm.removeUpdates(locationListenerGps);
             lm.removeUpdates(locationListenerNetwork);
 
