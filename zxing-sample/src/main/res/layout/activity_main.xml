@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,120 +11,121 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
+        <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+        <!--app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:background="@color/primary"
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="@color/background_item" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@color/background_item"
-                >
+                android:elevation="4dp"
+                android:orientation="horizontal">
+
+                <!--<Button-->
+                    <!--android:id="@+id/btnAddElement"-->
+                    <!--style="@style/Widget.AppCompat.Button.Colored"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:drawableLeft="@android:drawable/ic_menu_edit"-->
+                    <!--android:text="@string/lbladdEl" />-->
 
                 <Button
-                    android:id="@+id/btnMakeResults"
-                    style="@style/Widget.AppCompat.Button.Colored"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:drawableLeft="@android:drawable/ic_menu_send"
-                    android:text="@string/lblResults" />
-
-                <Button
-                    android:id="@+id/btnLoadList"
-                    style="@style/Widget.AppCompat.Button.Colored"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@android:drawable/ic_menu_rotate"
-                    android:text="@string/lblScan" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/background_item"
-                >
-
-                <Button
-                    android:id="@+id/btnAddElement"
-                    style="@style/Widget.AppCompat.Button.Colored"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-
-                    android:layout_weight="1"
-                    android:drawableLeft="@android:drawable/ic_menu_edit"
-                    android:text="@string/lbladdEl" />
-
-                <Button
-
                     android:id="@+id/btnClearList"
                     style="@style/Widget.AppCompat.Button.Colored"
-
                     android:layout_width="match_parent"
-
-
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+                    android:onClick="logout"
                     android:text="@string/lblClear" />
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_item"
+                android:elevation="4dp"
+                android:orientation="horizontal">
+
+
+                <!--<Button-->
+                    <!--android:id="@+id/btnMakeResults"-->
+                    <!--style="@style/Widget.AppCompat.Button.Colored"-->
+
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:drawableTop="@drawable/ic_description_black_24dp"-->
+                    <!--android:text="@string/lblResults" />-->
+
+                <Button
+                    android:id="@+id/btnLoadList"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_event_available_black_24dp"
+                    android:onClick="getProfessorLocation"
+                    android:text="@string/lblScan" />
+            </LinearLayout>
+
             <android.support.design.widget.CoordinatorLayout
-                android:id="@+id/main_content"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/main_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <!--<RelativeLayout-->
+                <!--<RelativeLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent">-->
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/lstVoucherCheck"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:scrollbarTrackVertical="@color/primary_light"
+                    android:scrollbarSize="4dp" />
 
-                </android.support.v7.widget.RecyclerView>
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fabs"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="16dp"
-                    app:layout_anchor="@id/lstVoucherCheck"
-                    app:layout_anchorGravity="bottom|right|end"
-                    android:clickable="true"
-                    android:onClick="launchScalingScannerActivity"
-                    app:fabSize="normal"
-                    app:layout_behavior="me.dm7.barcodescanner.zxing.sample.controller.behavior.ScrollAwareFABBehavior"
-                    app:srcCompat="@drawable/ic_center_focus_weak_black_24dp"
-                    tools:ignore="VectorDrawableCompat" />
+                <!--<android.support.design.widget.FloatingActionButton-->
+                    <!--android:id="@+id/fabs"-->
+                    <!--android:layout_width="70dp"-->
+                    <!--android:layout_height="70dp"-->
+                    <!--android:layout_gravity="bottom|right"-->
+                    <!--android:layout_margin="16dp"-->
+                    <!--android:clickable="true"-->
+                    <!--app:fabSize="normal"-->
+                    <!--app:layout_anchor="@id/lstVoucherCheck"-->
+                    <!--app:layout_anchorGravity="bottom|right|end"-->
+                    <!--app:layout_behavior="me.dm7.barcodescanner.zxing.sample.controller.behavior.ScrollAwareFABBehavior"-->
+                    <!--app:srcCompat="@drawable/ic_center_focus_weak_black_24dp"-->
+                    <!--tools:ignore="VectorDrawableCompat" />-->
 
                 <!--<ImageButton-->
 
@@ -144,9 +144,9 @@
                 <!--android:scaleType="fitEnd"-->
                 <!--android:onClick="launchScalingScannerActivity"-->
                 <!--android:contentDescription="@string/lblScan" />-->
-            <!--</RelativeLayout>-->
+                <!--</RelativeLayout>-->
 
-</android.support.design.widget.CoordinatorLayout>
+            </android.support.design.widget.CoordinatorLayout>
         </LinearLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

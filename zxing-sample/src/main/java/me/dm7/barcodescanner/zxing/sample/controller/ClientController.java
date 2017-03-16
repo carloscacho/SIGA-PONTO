@@ -1,203 +1,270 @@
-package me.dm7.barcodescanner.zxing.sample.controller;
+        package me.dm7.barcodescanner.zxing.sample.controller;
 
+        import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import me.dm7.barcodescanner.zxing.sample.model.ClientCompany;
-import me.dm7.barcodescanner.zxing.sample.model.Course;
-import me.dm7.barcodescanner.zxing.sample.model.ReservationMonth;
-import me.dm7.barcodescanner.zxing.sample.model.Voucher;
+import me.dm7.barcodescanner.zxing.sample.controller.GeoLocation.GeoLocationBounds;
+import me.dm7.barcodescanner.zxing.sample.model.ListItemPontos;
 
-/**
- * Created by CarlosEmilio on 28/09/2016.
- */
+        /**
+         * Created by CarlosEmilio on 28/09/2016.
+         *
+         */
 
-public class ClientController {
-    private ArrayList<ClientCompany> clients;
-    private ArrayList<Course> courses;
-    private DataBaseController dbController;
+        public class ClientController {
 
-
-    //===================================================
-    //
-    //     Create client model
-    //
-    //===================================================
-    /**
-     *
-     * @param context
-     */
-    public ClientController(Context context) {
-        clients = new ArrayList<>();
-        courses = new ArrayList<>();
-        dbController = DataBaseController.getInstance(context);
-    }
+            private DataBaseController dbController;
 
 
-    /**
-     *
-     * @param ClientName
-     * @param ClientCT
-     * @return
-     */
-    public boolean addClient(int id, String ClientName, int ClientCT){
-        ClientCompany client = new ClientCompany(ClientName, ClientCT);
-        client.setIdCompany(id);
-        if(!clients.contains(client))
-            clients.add(client);
-        else
-            return false;
-        return true;
-    }
 
+            //===================================================
+            //
+            //     Create client model
+            //
+            //===================================================
 
-    /**
-     * Get all elements in BD put in Array of Client Company
-     */
-    public void preloadClients(){
-        Cursor cs = dbController.getConnDataBase().query("CLIENT_COMPANY",null,null,null,null,null,null);
+            /**
+             * @param context
+             */
+            public ClientController(Context context) {
 
-        if(cs.getCount() > 0) {
-            cs.moveToFirst();
-
-            do {
-                int id = cs.getInt(1);
-                String name = cs.getString(1);
-                int ct = cs.getInt(2);
-               addClient(id, name, ct);
-
-
-            }while(cs.moveToNext());
-        }
-
-
-        cs.close();
-
-    }
-
-
-    //===================================================
-    //
-    //     Create Course model
-    //
-    //===================================================
-
-    /**
-     *
-     * @param course
-     * @return
-     */
-    public boolean addCourse(Course course){
-
-        if(!courses.contains(course))
-            courses.add(course);
-        else
-            return false;
-        return true;
-    }
-
-
-    /**
-     * Get all elements in BD put in Array of Client Company
-     */
-    public void preloadCourse(){
-        Cursor cs = dbController.getConnDataBase().query("COURSE",null,null,null,null,null,null);
-
-        if(cs.getCount() > 0) {
-            cs.moveToFirst();
-
-            do {
-
-                addCourse(createCourse(cs));
-
-            }while(cs.moveToNext());
-        }
-
-
-        cs.close();
-
-    }
-
-    public Course createCourse(Cursor cs){
-        int id = Integer.parseInt(cs.getString(0));
-        String name = cs.getString(1);
-        String date = cs.getString(2);
-
-        Course course = new Course(name, date);
-        course.setIdCourse(id);
-
-        return course;
-    }
-
-
-    //===================================================
-    //
-    //     Create Voucher model
-    //
-    //===================================================
-
-    public void preLoadVoucher(){
-        Cursor cs = dbController.getConnDataBase().query("VOUCHER",null,null,null,null,null,null);
-
-        if(cs.getCount() > 0) {
-            cs.moveToFirst();
-
-            do {
-                int idCourse = cs.getInt(1);
-                int idClient = cs.getInt(2);
-                int voucherN = Integer.parseInt(cs.getString(3));
-                int status = Integer.parseInt(cs.getString(4));
-                int extra = cs.getInt(5);
-                addVoucher( idCourse, idClient, voucherN, status, extra);
-
-            }while(cs.moveToNext());
-        }
-
-
-        cs.close();
-    }
+                dbController = DataBaseController.getInstance(context);
+            }
 
 
 
 
-    private void addVoucher(int idCourse, int idClient, int voucherN, int status, int extra) {
-        Cursor cs = dbController.getConnDataBase().query("COURSE",null,idCourse + " = _id",null,null,null,null);
+            /**
+             * only test
+             */
+            public void insertElementsTest(Context context) {
 
-        Course link = createCourse(cs);
 
-        Voucher voucher = new Voucher(voucherN, false, link);
-        //change int to boolean
-        voucher.setExtra(extra != 0);
-        voucher.setChecked(status != 0);
 
-        for (int i = 0; i < clients.size(); i++) {
-            if(clients.get(i).getIdCompany() == idClient){
-                int key = Integer.parseInt(link.getDateCourse());
-                if(!clients.get(i).getListOfReservation().containsKey(key)) {
-                    clients.get(i).getListOfReservation().put(key, new ReservationMonth(key));
-                    clients.get(i).getListOfReservation().get(key).getReservedCourses().add(voucher);
+                try {
+
+                    Cursor batidaregistroCursor = dbController.getConnDataBase().query("batidaregistro", null, null, null, null, null, null);
+
+                    if(batidaregistroCursor.getCount() == 0) {
+
+                        // create batidas
+                        for (int i = 0; i < 8; i++) {
+                            ContentValues contValue = new ContentValues();
+                            contValue.put("batidaregistroID", i);
+                            contValue.put("escolaID", i % 5);
+
+                            contValue.put("pontoDiaMes", String.valueOf(i + 10));
+                            contValue.put("pontoDiaSem", getWeakDate((i % 7) + 1));
+                            contValue.put("pontoHora", "09:00");
+
+                            contValue.put("aprovado", i % 2);
+                            contValue.put("motivo", "motivo " + i);
+                            dbController.getConnDataBase().insertOrThrow("batidaregistro", null, contValue);
+                        }
+
+                        // create escola
+                        for (int i = 0; i < 6; i++) {
+                            ContentValues contValue = new ContentValues();
+                            contValue.put("escolaID", i);
+                            contValue.put("descricao", "Escola " + i);
+                            contValue.put("latitude", Double.toString(37.422 + i));
+                            contValue.put("longitude", Double.toString(122.084 + i));
+                            contValue.put("enderecoID", i);
+                            dbController.getConnDataBase().insertOrThrow("escola", null, contValue);
+                        }
+
+                    }
+
+                    batidaregistroCursor.close();
+
+                    }catch(Exception e){
+                        Log.e("Insert BD", e.getMessage());
+                    }
+
+
+
+            }
+
+
+
+
+            public ArrayList<ListItemPontos> getArrayVoucherWithOutPreload() {
+                ArrayList<ListItemPontos> stringArrayAdapter = new ArrayList<>();
+                ListItemPontos item;
+                String nomeEscola = "0";
+                int countCheck = 0;
+
+
+
+                Cursor batidaregistroCursor = dbController.getConnDataBase().query("batidaregistro", null, null, null, null, null, null);
+
+                if (batidaregistroCursor.getCount() > 0) {
+                    //initialize
+                    batidaregistroCursor.moveToFirst();
+
+                    do {
+                        //get all elements of csClient
+                        int idBatida = batidaregistroCursor.getInt(1);
+                        int idEscola = batidaregistroCursor.getInt(2);
+                        String batidaPontoDiaMes = batidaregistroCursor.getString(3);
+                        String batidaPontoDiaSem = batidaregistroCursor.getString(4);
+                        String batidaPontoHora = batidaregistroCursor.getString(5);
+                        int aprovado = batidaregistroCursor.getInt(6);
+
+                        //find voucher of the client x
+                        Cursor escolaCursor = dbController.getConnDataBase().query("escola",null, ("escolaID == " + idEscola), null,null,null,null);
+                        if(escolaCursor.getCount() > 0){
+                            escolaCursor.moveToFirst();
+                            nomeEscola = escolaCursor.getString(2);
+
+
+                        }
+
+
+                        String conf = aprovado == 1 ? "Confirmado" : "Não Confirmado";
+
+
+                        //create item list company with total of voucher and total of checkin
+                        item = new ListItemPontos(nomeEscola, batidaPontoDiaSem, batidaPontoDiaMes ,  conf, batidaPontoHora );
+                        stringArrayAdapter.add(item);
+
+                        //clear the variables
+                        nomeEscola = "0";
+                        countCheck = 0;
+
+                        escolaCursor.close();
+
+                    } while (batidaregistroCursor.moveToNext());
                 }
-                else {
-                    clients.get(i).getListOfReservation().get(key).getReservedCourses().add(voucher);
+
+                batidaregistroCursor.close();
+
+
+                return stringArrayAdapter;
+
+            }
+
+
+
+
+                public String getWeakDate(int numberDate){
+                    String retorno = "";
+
+                    switch (numberDate) {
+
+                        case 1: retorno = "Domingo"; break;
+
+                        case 2: retorno = "Segunda-feira"; break;
+
+                        case 3: retorno = "Terça-Feira"; break;
+
+                        case 4: retorno = "Quarta-feira"; break;
+
+                        case 5: retorno = "Quinta-feira"; break;
+
+                        case 6: retorno = "Sexta-feira"; break;
+
+                        case 7: retorno = "Sábado"; break;
+
+                    }
+
+                    return retorno;
+
                 }
+
+
+
+
+
+            public void CreateAccess(String strLogin){
+
+                Cursor batidaregistroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+
+                if(batidaregistroCursor.getCount() == 0) {
+
+                    ContentValues contValueUser = new ContentValues();
+
+                    contValueUser.put("nome", "Carlos Emilio de A. Cacho");
+                    contValueUser.put("login", "carlosemilio");
+                    contValueUser.put("senha", "1234");
+                    contValueUser.put("dadosID", "1");
+                    try {
+                        dbController.getConnDataBase().insertOrThrow("usuario", null, contValueUser);
+                    }catch (Exception ex){
+                        Log.i("BD", "insert adm in bd");
+                    }
+                }
+
+                batidaregistroCursor.close();
+
+            }
+
+
+           public boolean verifyAccess(){
+               Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+               int count =  registroCursor.getCount();
+              // String strNome = registroCursor.getString(3);
+               registroCursor.close();
+
+
+               return  count > 0;
+
+
+           }
+
+            public void removeAccess(){
+
+                Cursor registroCursor = dbController.getConnDataBase().query("usuario", null, null, null, null, null, null);
+                registroCursor.moveToFirst();
+                String strLogin = registroCursor.getString(3);
+                registroCursor.close();
+                try {
+                    dbController.getConnDataBase().execSQL(" DELETE  FROM usuario ");
+
+                }catch (Exception ex){
+                    System.out.println("Erro no truncate " + ex.getMessage());
+                }
+
+
+            }
+
+
+            public boolean isHourAndLocationOk(Location location) {
+                Calendar calendar = new GregorianCalendar();
+                Date trialTime = new Date();
+                calendar.setTime(trialTime);
+                String now =  calendar.get(Calendar.HOUR_OF_DAY ) + ":00'" ;
+
+
+                Cursor registroCursor = dbController.getConnDataBase().query("batidaregistro", null, "batidaregistro.pontoHora like '" + now, null, null, null, null);
+                if(registroCursor.getCount() > 0){
+                    registroCursor.moveToFirst();
+                    int escolaID = registroCursor.getInt(2);
+
+                    Cursor escolaCursor = dbController.getConnDataBase().query("escola", null, "escola.escolaID = " + escolaID, null, null, null, null);
+
+                    if(escolaCursor.getCount() > 0){
+                        escolaCursor.moveToFirst();
+                        double lat = Double.parseDouble(escolaCursor.getString(3));
+                        double lon = Double.parseDouble(escolaCursor.getString(4));
+
+                        GeoLocationBounds geo = new GeoLocationBounds(lat, lon);
+                        if(geo.contains(location.getLatitude(), location.getLongitude()))
+                            return true;
+                    }
+
+                }
+                else{
+                    return false;
+                }
+                return false;
             }
         }
-    }
-
-    /**
-     * make all preload
-     * @param context of create connection
-     * @return object copy of
-     */
-    public ClientController loadClientController(Context context){
-        ClientController clients = new ClientController(context);
-        clients.preloadClients();
-        clients.preloadCourse();
-        clients.preLoadVoucher();
-
-        return clients;
-    }
-
-}

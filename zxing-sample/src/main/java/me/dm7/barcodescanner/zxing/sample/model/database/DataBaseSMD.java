@@ -14,7 +14,7 @@ public class DataBaseSMD extends SQLiteOpenHelper{
      * @param context of main view
      */
     public DataBaseSMD(Context context){
-        super(context, "BD_SMD", null, 1);
+        super(context, "UNIVAGHACKBD", null, 1);
     }
 
 
@@ -26,26 +26,41 @@ public class DataBaseSMD extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS CLIENT_COMPANY(" +
-                "_id    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "CompanyName    VARCHAR(255)" +
-                "CompanyCT    INTEGER" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS usuario(" +
+                "_id            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "usuarioID     INTEGER,"+
+                "nome    VARCHAR(80)," +
+                "login    VARCHAR(20)," +
+                "senha      VARCHAR(50)," +
+                "dadosID      VARCHAR(50)" +
                 ");");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS COURSE(" +
-                "_id    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "CourseName   VARCHAR(255)" +
-                "CourseDate   VARCHAR(20)"+
+        db.execSQL("CREATE TABLE IF NOT EXISTS batidaregistro(" +
+                "_id            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "batidaregistroID INTEGER,"+
+                "escolaID     INTEGER," +
+                "pontoDiaMes    VARCHAR(100),"+
+                "pontoDiaSem   VARCHAR(100),"+
+                "pontoHora    VARCHAR(100),"+
+                "aprovado     INTEGER,"+
+                "motivo      VARCHAR(255)"+
                 ");");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS VOUCHER(" +
-                "_id    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "IdCourse INTEGER"+
-                "IdClient INTEGER"+
-                "VoucherNumber   VARCHAR(255)" +
-                "Status   INTEGER"+
-                "IsExtra  INTEGER"+
+        db.execSQL("CREATE TABLE IF NOT EXISTS escola(" +
+                "_id            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "escolaID       INTEGER,"+
+                "descricao      INTEGER,"+
+                "latitude       VARCHAR(255)," +
+                "longitude      VARCHAR(255),"+
+                "enderecoID        INTEGER"+
                 ");");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS entradasaida(" +
+                "_id            INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "batidaregistroID       INTEGER,"+
+                "horaentrada       VARCHAR(20)," +
+                "horasaida     VARCHAR(20)"+
+                 ");");
     }
 
     @Override

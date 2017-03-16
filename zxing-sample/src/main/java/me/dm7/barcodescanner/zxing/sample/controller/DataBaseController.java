@@ -3,14 +3,10 @@ package me.dm7.barcodescanner.zxing.sample.controller;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import me.dm7.barcodescanner.zxing.sample.model.database.DataBaseSMD;
-import me.dm7.barcodescanner.zxing.sample.model.ListItemClientCompany;
 
 /**
  * Created by CarlosEmilio on 31/08/2016.
@@ -66,34 +62,34 @@ public class DataBaseController {
         }
     }
 
-    /**
-     *
-     * @param context this necessary for create arrayAd
-     * @return a array with number of voucher checked
-     *
-     */
-    public ArrayList<ListItemClientCompany> getArrayVoucher(Context context){
-        ArrayList<ListItemClientCompany> stringArrayAdapter = new ArrayList<>();
-        ListItemClientCompany item;
-        //get All voucher Checked
-        Cursor cs = connDataBase.query("VOUCHERIN",null,null,null,null,null,null);
-
-        if(cs.getCount() > 0) {
-            cs.moveToFirst();
-
-            do {
-                String number = cs.getString(1);
-                item = new ListItemClientCompany("Empresa X", "10", number, "0" );
-                stringArrayAdapter.add(item);
-
-            }while(cs.moveToNext());
-        }
-
-
-        cs.close();
-
-        return stringArrayAdapter;
-    }
+//    /**
+//     *
+//     * @param context this necessary for create arrayAd
+//     * @return a array with number of voucher checked
+//     *
+//     */
+//    public ArrayList<ListItemPontos> getArrayVoucher(Context context){
+//        ArrayList<ListItemPontos> stringArrayAdapter = new ArrayList<>();
+//        ListItemPontos item;
+//        //get All voucher Checked
+//        Cursor cs = connDataBase.query("VOUCHERIN",null,null,null,null,null,null);
+//
+//        if(cs.getCount() > 0) {
+//            cs.moveToFirst();
+//
+//            do {
+//                String number = cs.getString(1);
+//                item = new ListItemPontos("Empresa X", "10", number, "0" );
+//                stringArrayAdapter.add(item);
+//
+//            }while(cs.moveToNext());
+//        }
+//
+//
+//        cs.close();
+//
+//        return stringArrayAdapter;
+//    }
 
 
     /**
