@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.1'
     }
 }
 
@@ -31,7 +32,7 @@ subprojects {
         if(ext.pluginContainer.hasPlugin("com.android.application") || ext.pluginContainer.hasPlugin("com.android.library")) {
             android {
                 compileSdkVersion 23
-                buildToolsVersion '23.0.3'
+                buildToolsVersion '25.0.0'
 
                 android {
                     lintOptions {
