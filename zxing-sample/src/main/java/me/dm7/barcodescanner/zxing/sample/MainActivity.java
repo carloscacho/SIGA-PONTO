@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
                     progressDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "localização encontrada: " + strLocation, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getParent().getBaseContext(), "localização encontrada: " + strLocation, Toast.LENGTH_SHORT).show();
 //                    Send information
 //                  try {
 //                        PostPosition postPosition = new PostPosition();
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity  {
 //                    }
                 }else{
                     progressDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "localização errada: " + strLocation, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getParent().getBaseContext(), "localização errada: " + strLocation, Toast.LENGTH_SHORT).show();
 
                 }
             }
